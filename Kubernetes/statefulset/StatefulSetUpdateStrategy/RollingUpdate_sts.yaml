@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: crak-statefulset-rolling
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  serviceName: "crak-rolling"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crak-rolling
+  template:
+    metadata:
+      labels:
+        app: crak-rolling
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80

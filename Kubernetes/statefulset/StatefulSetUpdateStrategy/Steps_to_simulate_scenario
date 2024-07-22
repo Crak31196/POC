@@ -1,0 +1,36 @@
+Create statefulset using RollingUpdate_sts.yaml
+-> kubectl apply -f RollingUpdate_sts.yaml
+
+Now change the image of nginx 
+-> kubectl set image sts crak-statefulset-rolling nginx=nginx:1.16.0
+
+Now watch the bheaviour of the pod 
+-> kubectl get pods -l app=crak-rolling -w
+
+You'll see each pod being updated one by one.
+
+
+For OnDelete Strategy
+
+Create statefulset using ondelete_sts.yaml
+-> kubectl apply -f ondelete_sts.yaml
+
+Now change the image of nginx 
+-> kubectl set image sts crak-statefulset-ondelete nginx=nginx:1.16.0
+
+Now check if any pod is replaced on its own ( Ideally it won't)
+
+So the OnDelete strategy says, once manually pod is deleted new pod with new updated revision will be deployed 
+
+Try to delete single pod -> kubectl delete po crak-statefulset-ondelete-0 
+
+Now check staus of pod -> kubectl get pods -l app=crak-ondelete -w 
+You'll notice only one pod is update with the latest image which you patched above. 
+
+Similarly if you delete remaining pods -> kubectl delete po crak-statefulset-ondelete-1 crak-statefulset-ondelete-2 
+Now all pods of sts crak-statefulset-ondelete will be to new image version
+
+The RollingUpdate strategy provides automated updates, ensuring that at least one pod is always running. The OnDelete strategy gives you manual control over the update process
+
+Note: Make sure you are cleaning all the stuffs which are created for POC 
+kubectl delete -f RollingUpdate_sts.yaml -f ondelete_sts.yaml
