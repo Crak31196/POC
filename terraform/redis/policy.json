@@ -1,0 +1,16 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "elasticache:Connect"
+        ],
+        "Resource" : [
+          "arn:aws:elasticache:us-east-1:<< AWS ACCOUNT ID>>:cluster:redis-iam-test",
+          "arn:aws:elasticache:us-east-1:<< AWS ACCOUNT ID>>:user:redis-iam-user"
+        ]
+      }
+    ]
+  }
+  
